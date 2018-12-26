@@ -1,6 +1,164 @@
-@import './styles/sample.scss';
-body{
-    div{
-        color:red;
+@import "./styles/sample.scss";
+
+$homeBgLinearGradient: linear-gradient(
+  135deg,
+  #73264d,
+  #cc667b,
+  #d98c8c,
+  #e6b3cc
+);
+$font-color: whitesmoke;
+$font-family: Montserrat-Regular;
+$icon-family: Material Icons;
+$smallDeviceWidth: 320px;
+$mediumDeviceWidth: 1024px;
+$headerHandheldMargin: 1em;
+
+@font-face {
+  font-family: $font-family;
+  src: url("./fonts/Montserrat-Regular.woff") format("woff");
+  src: url("./fonts/Montserrat-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: $icon-family;
+  font-style: normal;
+  font-weight: 400;
+  src: local("Material Icons"), local("MaterialIcons-Regular"),
+    url(./fonts/MaterialIcons-Regular.woff) format("woff2"),
+    url(./fonts/MaterialIcons-Regular.woff2) format("woff");
+}
+
+.material-icons {
+  font-family: "Material Icons";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 16px;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: "liga";
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: $font-family;
+  background-image: $homeBgLinearGradient;
+  background-repeat: no-repeat;
+  color: $font-color;
+  margin: 0px;
+}
+
+@mixin responsive-header($deviceType) {
+  @if ($deviceType == "handheld") {
+    @media only screen and (min-width: $smallDeviceWidth) and (max-width: $mediumDeviceWidth - 1) {
+      @content;
     }
+  } @else if($deviceType == "lappy") {
+    @media only screen and (min-width: $mediumDeviceWidth) {
+      @content;
+    }
+  }
+}
+
+@mixin hide() {
+  // can not @extend classes in @media... So, changing it to @mixin and @include it.
+  display: none;
+}
+
+.hide {
+  //creating a class too for other use
+  display: none;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 1em 4em;
+  & > * {
+    flex: 1 0 45%;
+  }
+  #home-logo {
+    font-size: 2em;
+    font-weight: 400;
+  }
+  #home-menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: baseline;
+    font-size: 1em;
+    & > button {
+      font-family: $font-family;
+      min-width: 20%;
+      border-radius: 50px;
+      background-color: #73264d;
+      height: 2em;
+      border: 1px #73264d;
+      outline: none;
+      color: $font-color;
+      font-size: 0.75em;
+      padding: 0em 1.25em;
+    }
+    & > * {
+      cursor: pointer;
+    }
+  }
+  #home-sidebar {
+    i {
+      float: right;
+      font-size: 20px;
+      cursor: pointer;
+      color: $font-color;
+    }
+  }
+  @include responsive-header("handheld") {
+    margin: $headerHandheldMargin;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    #home-menu {
+      @include hide;
+      margin: 0.5em (-$headerHandheldMargin);
+      padding: 0.5em $headerHandheldMargin;
+      flex-direction: column;
+      background-image: $homeBgLinearGradient;
+      border-top: 1px solid $font-color;
+      & > * {
+        line-height: 2em;
+      }
+      & > button {
+        height: 2.25em;
+        margin: 0.75em 0em;
+        width: 100%;
+      }
+    }
+  }
+  @include responsive-header("lappy") {
+    #home-menu {
+      display: flex !important;
+    }
+    #home-sidebar {
+      @include hide;
+    }
+  }
 }

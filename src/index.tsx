@@ -1,13 +1,9 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import { render } from 'react-dom';
+import { Sidebar } from './scripts/components/Sidebar';
 import './index.scss';
 
-class Cust extends React.Component {
-    render() {
-        return (
-            <div id="customElem">Custom Element</div>
-        );
-    }
-}
 
-ReactDOM.render(<Cust />, document.getElementById('custom'));
+render(<Sidebar ref={(sidebar) => {
+    (window as any).sidebarComponent = sidebar;
+}} />, document.getElementById('home-sidebar'));
