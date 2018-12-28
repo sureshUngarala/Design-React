@@ -1,4 +1,5 @@
 @import "./styles/sample.scss";
+@import "./sprite_png/finance.scss";
 
 $homeBgLinearGradient: linear-gradient(
   135deg,
@@ -67,13 +68,25 @@ body {
   margin: 0px;
 }
 
-@mixin responsive-header($deviceType) {
+@mixin responsive($deviceType) {
   @if ($deviceType == "handheld") {
     @media only screen and (min-width: $smallDeviceWidth) and (max-width: $mediumDeviceWidth - 1) {
       @content;
     }
   } @else if($deviceType == "lappy") {
     @media only screen and (min-width: $mediumDeviceWidth) {
+      @content;
+    }
+  } @else if($deviceType == "phones") {
+    @media only screen and (min-width: $smallDeviceWidth) and (max-width: 480px) {
+      @content;
+    }
+  } @else if($deviceType == "tablets") {
+    @media only screen and (min-width: 768px) and (max-width: $mediumDeviceWidth) {
+      @content;
+    }
+  } @else if($deviceType == "tabletsAndDesktops") {
+    @media only screen and (min-width: 768px) {
       @content;
     }
   }
@@ -132,28 +145,35 @@ body {
       color: $font-color;
     }
   }
-  @include responsive-header("handheld") {
+  @include responsive("handheld") {
     margin: $headerHandheldMargin;
     justify-content: space-around;
     flex-wrap: wrap;
-    #home-menu {
-      @include hide;
-      margin: 0.5em (-$headerHandheldMargin);
-      padding: 0.5em $headerHandheldMargin;
-      flex-direction: column;
-      background-image: $homeBgLinearGradient;
-      border-top: 1px solid $font-color;
-      & > * {
-        line-height: 2em;
-      }
-      & > button {
-        height: 2.25em;
-        margin: 0.75em 0em;
-        width: 100%;
+    .home-menu-rel {
+      position: relative;
+      #home-menu {
+        @include hide;
+        margin: 0.5em (-$headerHandheldMargin);
+        padding: 0.5em $headerHandheldMargin;
+        flex-direction: column;
+        background-image: $homeBgLinearGradient;
+        border-top: 1px solid $font-color;
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        top: 0px;
+        & > * {
+          line-height: 2em;
+        }
+        & > button {
+          height: 2.25em;
+          margin: 0.75em 0em;
+          width: 100%;
+        }
       }
     }
   }
-  @include responsive-header("lappy") {
+  @include responsive("lappy") {
     #home-menu {
       display: flex !important;
     }
@@ -161,4 +181,36 @@ body {
       @include hide;
     }
   }
+}
+
+#content-tiles {
+  margin-top: 30px;
+  .tileSet {
+    .tile {
+      border-radius: 10px;
+      background-color: $font-color;
+    }
+
+    @include responsive("handheld") {
+      .tile {
+        max-width: 90vw;
+        min-height: 40vw;
+        margin: 10px auto;
+      }
+    }
+    @include responsive("lappy") {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      .tile {
+        flex: 0 0 30vw;
+        min-height: 15vw;
+        margin: 20px 0px;
+      }
+    }
+  }
+}
+
+.advertising {
+  @include sprite($advertising);
 }
