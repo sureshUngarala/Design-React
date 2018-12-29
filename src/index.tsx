@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 import { Sidebar } from './scripts/components/Sidebar';
-import { TileSet } from './scripts/components/tiles';
+import { TileSet } from './scripts/components/TileSet';
 import './index.scss';
 
 

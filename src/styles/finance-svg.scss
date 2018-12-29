@@ -1,0 +1,83 @@
+$svg-sprites: (
+    'label': "/../src/sprites/finance.svg#label-fragment",
+    'pricing': "/../src/sprites/finance.svg#pricing-fragment",
+    'speaker': "/../src/sprites/finance.svg#speaker-fragment"
+);
+
+$svg-sizes: (
+    'label': (
+        'width': 512px,
+        'height': 512px
+    ),
+    'pricing': (
+        'width': 512px,
+        'height': 512px
+    ),
+    'speaker': (
+        'width': 512px,
+        'height': 512px
+    )
+);
+
+$svg-variables: (
+    
+);
+
+// https://github.com/waldemarfm/sass-svg-uri/blob/v1.0.0/_svg-uri.scss
+@function sprite-str-replace($string, $search, $replace: '') {
+    $index: str-index($string, $search);
+
+    @if type-of($replace) == 'null' {
+        $replace: '';
+    }
+
+    @if ( $index ) {
+        @return str-slice($string, 1, $index - 1) + $replace + sprite-str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+    }
+
+    @return $string;
+}
+
+@function sprite-svg-uri($value) {
+    $encoded: '';
+    $slice: 2000;
+    $index: 0;
+
+    @for $i from 1 through ceil(str-length($value) / $slice) {
+        $chunk: str-slice($value, $index, $index + $slice - 1);
+        $chunk: sprite-str-replace($chunk, '"', "'");
+        $chunk: sprite-str-replace($chunk, '<', '%3C');
+        $chunk: sprite-str-replace($chunk, '>', '%3E');
+        $chunk: sprite-str-replace($chunk, '&', '%26');
+        $chunk: sprite-str-replace($chunk, '#', '%23');
+        $encoded: #{$encoded}#{$chunk};
+        $index: $index + $slice;
+    }
+
+    @return $encoded;
+}
+
+@mixin svg-sprite($name, $user-variables: (), $include-size: false) {
+    $sprite: map-get($svg-sprites, $name);
+
+    // Inject variables
+    $default-variables: map-get($svg-variables, $name);
+    @if type-of($default-variables) == 'map' {
+        @each $key, $value in map-merge($default-variables, $user-variables) {
+            @if ( not map-has-key($default-variables, $key) ) {
+                @warn 'Sprite \'#{$name}\' does not support variable named \'#{$key}\'';
+            }
+
+            $sprite: sprite-str-replace($sprite, '___#{$key}___', sprite-svg-uri(quote($value)));
+        }
+    } @else if type-of($user-variables) == 'map' {
+        @warn 'Sprite \'#{$name}\' does not contain any variables';
+    }
+
+    background: url($sprite) center no-repeat;
+
+    @if $include-size {
+        $size: map-get($svg-sizes, $name);
+        background-size: map-get($size, width) map-get($size, height);
+    }
+}

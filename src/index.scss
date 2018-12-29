@@ -1,5 +1,6 @@
 @import "./styles/sample.scss";
-@import "./sprite_png/finance.scss";
+@import "./styles/finance-png.scss";
+@import "./styles/finance-svg.scss";
 
 $homeBgLinearGradient: linear-gradient(
   135deg,
@@ -213,4 +214,13 @@ body {
 
 .advertising {
   @include sprite($advertising);
+}
+
+.speaker{ //svg sprites
+  @include svg-sprite('speaker',(
+    color: '#f00'
+  ));
+  display: inline-block;
+  width:20px;
+  height: 20px;
 }

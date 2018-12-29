@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Icon } from './Icon';
 
 function tile(index: number) {
     return <div className="tile" key={index}></div>;

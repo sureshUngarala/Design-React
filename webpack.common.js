@@ -3,6 +3,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const htmlPlugin = require('html-webpack-plugin');
 const TSLintPlugin = require('tslint-webpack-plugin');
 const SpritesmithPlugin = require('webpack-spritesmith');
+const SVGSpritemapPlugin = require('svg-spritemap-webpack-plugin');
 
 module.exports = {
     entry: "./src/index.tsx",
@@ -29,9 +30,9 @@ module.exports = {
                 }
             },
             {
-                test: /\.(png)/, loader: 'file-loader', options: {
+                test: /\.(png|svg)/, loader: 'file-loader', options: {
                     name: '[name].[ext]',
-                    outputPath: 'png/'
+                    outputPath: 'assets/'
                 }
             }
         ]
@@ -50,7 +51,7 @@ module.exports = {
         }
     },
     plugins: [  //for bundled files
-        new CleanWebpackPlugin(['dist/*.*']),
+        new CleanWebpackPlugin(['dist/*']),
         new htmlPlugin({
             template: './src/index.html'
         }),
@@ -59,15 +60,43 @@ module.exports = {
         }),
         new SpritesmithPlugin({
             src: {
-                cwd: path.resolve(__dirname, 'src/png'),
+                cwd: path.resolve(__dirname, 'src/assets/png'),
                 glob: '*.png'
             },
             target: {
-                image: path.resolve(__dirname, 'src/sprite_png/finance.png'),
-                css: path.resolve(__dirname, 'src/sprite_png/finance.scss')
+                image: path.resolve(__dirname, 'src/sprites/finance.png'),
+                css: path.resolve(__dirname, 'src/styles/finance-png.scss')
             },
             apiOptions: {
-                cssImageRef: "./sprite_png/finance.png"  //path w.r.t where finance.scss gets imported
+                cssImageRef: "./sprites/finance.png"  //path w.r.t where finance.scss gets imported
+            }
+        }),
+        new SVGSpritemapPlugin('src/assets/svg/*.svg', {    //refer `https://github.com/cascornelissen/svg-spritemap-webpack-plugin/blob/master/docs/options.md`
+            output: {
+                filename: '../src/sprites/finance.svg',
+                svg: {
+                    sizes: false
+                },
+                svg4everybody: false,    //keeping it false for now, if needed, u know what to do
+                svgo: true
+            },
+            sprite: {
+                prefix: false, //for now, no prefix for sprite' name
+                generate: {
+                    use: true,
+                    view: '-fragment',
+                    symbol: true
+                },
+            },
+            styles: {
+                format: 'fragment',
+                filename: path.join(__dirname, 'src/styles/finance-svg.scss'),
+                variables: {    //just variable names in scss created
+                    sprites: 'svg-sprites',
+                    sizes: 'svg-sizes',
+                    variables: 'svg-variables',
+                    mixin: 'svg-sprite'
+                }
             }
         })
     ]
