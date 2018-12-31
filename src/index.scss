@@ -103,12 +103,25 @@ body {
   display: none;
 }
 
-.header {
+.flex-row {
   display: flex;
   flex-direction: row;
+  align-items: center;
+}
+
+.fixed-header {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  background-image: $homeBgLinearGradient;
+}
+
+.header {
+  @extend .flex-row;
   justify-content: space-between;
-  align-items: baseline;
-  margin: 1em 4em;
+  padding: 1em 4em;
   & > * {
     flex: 1 0 45%;
   }
@@ -117,25 +130,44 @@ body {
     font-weight: 400;
   }
   #home-menu {
-    display: flex;
-    flex-direction: row;
+    @extend .flex-row;
     justify-content: space-evenly;
-    align-items: baseline;
     font-size: 1em;
     & > button {
       font-family: $font-family;
       min-width: 20%;
       border-radius: 50px;
       background-color: #73264d;
-      height: 2em;
+      height: 2.5em;
       border: 1px #73264d;
       outline: none;
       color: $font-color;
       font-size: 0.75em;
-      padding: 0em 1.25em;
+      //padding: 0em 1.25em;
     }
     & > * {
       cursor: pointer;
+    }
+    .portaitSearch {
+      display: none;
+    }
+    input {
+      border: none;
+      background: transparent;
+      //border-bottom: 1px solid whitesmoke;
+      outline: 0;
+      box-shadow: none;
+      caret-color: $font-color;
+      width: 85%;
+      font-size: 1.25em;
+      font-family: $font-family;
+      &:focus {
+        color: $font-color;
+      }
+      &::placeholder {
+        font-size: 0.8em;
+        color: $font-color;
+      }
     }
   }
   #home-sidebar {
@@ -147,27 +179,43 @@ body {
     }
   }
   @include responsive("handheld") {
-    margin: $headerHandheldMargin;
+    padding: $headerHandheldMargin;
     justify-content: space-around;
     flex-wrap: wrap;
     .home-menu-rel {
       position: relative;
       #home-menu {
         @include hide;
+        align-items: baseline;
         margin: 0.5em (-$headerHandheldMargin);
         padding: 0.5em $headerHandheldMargin;
         flex-direction: column;
         background-image: $homeBgLinearGradient;
-        border-top: 1px solid $font-color;
+        //border-top: 1px solid $font-color;
         position: absolute;
         left: 0px;
         right: 0px;
         top: 0px;
         & > * {
           line-height: 2em;
+          width: 100%;
+        }
+        .portaitSearch {
+          display: block;
+          border: 1px solid #e6b3cc;
+          border-radius: 5px;
+          width: 100%;
+          height: 2em;
+          line-height: 2em;
+          font-size: 1em;
+          margin: 8px -8px;
+          padding: 4px 8px;
+        }
+        .searchInput {
+          display: none;
         }
         & > button {
-          height: 2.25em;
+          height: 2.5em;
           margin: 0.75em 0em;
           width: 100%;
         }
@@ -182,33 +230,41 @@ body {
       @include hide;
     }
   }
+  .searchIcon {
+    font-size: 1.5em;
+    vertical-align: middle;
+  }
 }
-
-#content-tiles {
-  margin-top: 30px;
-  .tileSet {
-    .tile {
-      border-radius: 10px;
-      background-color: $font-color;
-    }
-
-    @include responsive("handheld") {
+#home-body {
+  margin-top: calc(100px + 3em);
+  #content-tiles {
+    .tileSet {
       .tile {
-        max-width: 90vw;
-        min-height: 40vw;
-        margin: 10px auto;
+        border-radius: 10px;
+        background-color: $font-color;
+      }
+
+      @include responsive("handheld") {
+        .tile {
+          max-width: 90vw;
+          min-height: 40vw;
+          margin: 10px auto;
+        }
+      }
+      @include responsive("lappy") {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        .tile {
+          flex: 0 0 30vw;
+          min-height: 15vw;
+          margin: 20px 0px;
+        }
       }
     }
-    @include responsive("lappy") {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-around;
-      .tile {
-        flex: 0 0 30vw;
-        min-height: 15vw;
-        margin: 20px 0px;
-      }
-    }
+  }
+  @include responsive("handheld") {
+    margin-top: calc(50px + 3em);
   }
 }
 
@@ -216,11 +272,15 @@ body {
   @include sprite($advertising);
 }
 
-.speaker{ //svg sprites
-  @include svg-sprite('speaker',(
-    color: '#f00'
-  ));
+.speaker {
+  //svg sprites
+  @include svg-sprite(
+    "speaker",
+    (
+      color: "#f00"
+    )
+  );
   display: inline-block;
-  width:20px;
+  width: 20px;
   height: 20px;
 }
