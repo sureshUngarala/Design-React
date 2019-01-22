@@ -9,13 +9,17 @@ module.exports = {
     entry: "./src/index.tsx",
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'app-bundle.js'
+        filename: 'app-bundle.js',
+        publicPath: '/' //redirect on manual refresh (client router)
     },
     resolve: {
         alias: {
             Entry: path.resolve(__dirname, 'src/')
         },
         extensions: ['.js', '.tsx', '.ts', '.jsx', '.scss', '.css']  //for resolving module exports without extension
+    },
+    devServer: {
+        historyApiFallback: true,   //redirect on manual refresh (client router)
     },
     module: {   //for unbundled files
         rules: [

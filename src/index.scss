@@ -1,6 +1,7 @@
 @import "./styles/sample.scss";
 @import "./styles/finance-png.scss";
 @import "./styles/finance-svg.scss";
+@import "./styles/sprites.scss";
 
 $homeBgLinearGradient: linear-gradient(
   135deg,
@@ -94,7 +95,7 @@ body {
 }
 
 @mixin hide() {
-  // can not @extend classes in @media... So, changing it to @mixin and @include it.
+  // can not @extend classes in @media... So, changing it to @mixin and @include(ing) it.
   display: none;
 }
 
@@ -130,12 +131,12 @@ body {
     font-weight: 400;
   }
   #home-menu {
-    @extend .flex-row;
-    justify-content: space-evenly;
+    float: right;
     font-size: 1em;
-    & > button {
+    button {
       font-family: $font-family;
-      min-width: 20%;
+      min-width: 120px;
+      width: 100%;
       border-radius: 50px;
       background-color: #73264d;
       height: 2.5em;
@@ -143,13 +144,8 @@ body {
       outline: none;
       color: $font-color;
       font-size: 0.75em;
-      //padding: 0em 1.25em;
-    }
-    & > * {
       cursor: pointer;
-    }
-    .portaitSearch {
-      display: none;
+      //padding: 0em 1.25em;
     }
     input {
       border: none;
@@ -158,7 +154,7 @@ body {
       outline: 0;
       box-shadow: none;
       caret-color: $font-color;
-      width: 85%;
+      //width: 85%;
       font-size: 1.25em;
       font-family: $font-family;
       &:focus {
@@ -169,15 +165,11 @@ body {
         color: $font-color;
       }
     }
-  }
-  #home-sidebar {
-    i {
-      float: right;
-      font-size: 20px;
-      cursor: pointer;
-      color: $font-color;
+    .searchInput > * {
+      display: inline-block;
     }
   }
+
   @include responsive("handheld") {
     padding: $headerHandheldMargin;
     justify-content: space-around;
@@ -185,11 +177,8 @@ body {
     .home-menu-rel {
       position: relative;
       #home-menu {
-        @include hide;
-        align-items: baseline;
         margin: 0.5em (-$headerHandheldMargin);
         padding: 0.5em $headerHandheldMargin;
-        flex-direction: column;
         background-image: $homeBgLinearGradient;
         //border-top: 1px solid $font-color;
         position: absolute;
@@ -199,6 +188,7 @@ body {
         & > * {
           line-height: 2em;
           width: 100%;
+          margin: 0;
         }
         .portaitSearch {
           display: block;
@@ -219,12 +209,41 @@ body {
           margin: 0.75em 0em;
           width: 100%;
         }
+        .nav-items > * {
+          display: block;
+          width: 100%;
+          margin: 0;
+          & > *{
+            width:100%;
+          }
+        }
+        @include hide;  //Hiding
+      }
+    }
+    #home-sidebar {
+      i {
+        float: right;
+        font-size: 20px;
+        cursor: pointer;
+        color: $font-color;
       }
     }
   }
   @include responsive("lappy") {
     #home-menu {
-      display: flex !important;
+      display: block !important;
+      & > * {
+        cursor: pointer;
+        display: inline-block;
+        margin: 0px 10px;
+      }
+      .portaitSearch {
+        display: none;
+      }
+      .nav-items > * {
+        display: inline-block;
+        margin: 0px 1em;
+      }
     }
     #home-sidebar {
       @include hide;
@@ -234,53 +253,40 @@ body {
     font-size: 1.5em;
     vertical-align: middle;
   }
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 }
 #home-body {
   margin-top: calc(100px + 3em);
-  #content-tiles {
-    .tileSet {
-      .tile {
-        border-radius: 10px;
-        background-color: $font-color;
-      }
+  //#content-tiles {
+  .tileSet {
+    .tile {
+      border-radius: 10px;
+      background-color: $font-color;
+    }
 
-      @include responsive("handheld") {
-        .tile {
-          max-width: 90vw;
-          min-height: 40vw;
-          margin: 10px auto;
-        }
-      }
-      @include responsive("lappy") {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        .tile {
-          flex: 0 0 30vw;
-          min-height: 15vw;
-          margin: 20px 0px;
-        }
+    @include responsive("handheld") {
+      .tile {
+        max-width: 90vw;
+        min-height: 40vw;
+        margin: 10px auto;
       }
     }
+    @include responsive("lappy") {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      .tile {
+        flex: 0 0 30vw;
+        min-height: 15vw;
+        margin: 20px 0px;
+      }
+    }
+    //}
   }
   @include responsive("handheld") {
     margin-top: calc(50px + 3em);
   }
-}
-
-.advertising {
-  @include sprite($advertising);
-}
-
-.speaker {
-  //svg sprites
-  @include svg-sprite(
-    "speaker",
-    (
-      color: "#f00"
-    )
-  );
-  display: inline-block;
-  width: 20px;
-  height: 20px;
 }

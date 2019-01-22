@@ -1,0 +1,16 @@
+.advertising {
+    @include sprite($advertising);
+  }
+  
+  .speaker {
+    //svg sprites
+    @include svg-sprite(
+      "speaker",
+      (
+        color: "#f00"
+      )
+    );
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+  }

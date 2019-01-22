@@ -19,7 +19,7 @@ export class Sidebar extends React.Component<{}, myState> {
         if (display === 'none')
             window.requestAnimationFrame(() => {
                 homeMenu.slideDown(600, () => {
-                    homeMenu.css('display', 'flex');
+                    homeMenu.css('display', 'block');
                 });
             });
         else

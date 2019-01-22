@@ -27,7 +27,7 @@ export class SearchInput extends React.Component<myProps, {}> {
             !this.props.isHidden && <React.Fragment>
                 <i className="material-icons searchIcon">search</i>
                 <input placeholder="search something ..." onChange={this.changeHandler}
-                    onBlur={this.props.onBlur}
+                    /*onBlur={this.props.onBlur}*/
                     ref={(el) => {
                         this.inputRef = el;
                     }

@@ -1,14 +1,15 @@
 import * as React from 'react';
 import { SearchInput } from './SearchInput';
+import { Link } from 'react-router-dom';
 import * as $ from 'jquery';
 
 const MenuItems: React.FunctionComponent<{ isHidden: boolean }> = (props) => {
-    return !props.isHidden && <React.Fragment>
-        <div>Stock</div>
-        <div>Menu1</div>
-        <div>Menu2 </div>
-        <div>Contact</div>
-    </React.Fragment>;
+    return !props.isHidden && <div className="nav-items">
+        <Link to="/"><div>Stock</div></Link>
+        <Link to="/random"><div>Menu1</div></Link>
+        <Link to="/randomAgain"><div>Menu2 </div></Link>
+        <Link to='/contact'><div>Contact</div></Link>
+    </div>;
 };
 
 export class Menu extends React.Component<{}, { icon: string, hideInput: boolean }>{
@@ -25,7 +26,7 @@ export class Menu extends React.Component<{}, { icon: string, hideInput: boolean
     }
 
     toggleInput(event?: { type: string }) {
-        console.log(event && event.type);
+        //console.log(event && event.type);
         this.setState({
             icon: this.state.icon === 'search' ? 'close' : 'search',
             hideInput: !this.state.hideInput,
@@ -55,7 +56,7 @@ export class Menu extends React.Component<{}, { icon: string, hideInput: boolean
                         });
                     }}>{this.state.icon}</i>
                 </div>
-                <button>Sign in</button>
+                <Link to='/signup'><button>Sign in</button></Link>
             </div>
         );
     }

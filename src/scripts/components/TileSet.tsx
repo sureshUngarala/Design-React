@@ -9,6 +9,9 @@ interface MyProps {
     size?: string;
 }
 export class TileSet extends React.Component<MyProps, {}> {
+    static defaultProps = {
+        size: "3",
+    };
     render() {
         const tiles = [];
         for (let i = 0; i < +this.props.size; i++)
