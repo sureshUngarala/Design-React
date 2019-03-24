@@ -37,7 +37,8 @@
         "ordered-imports": false,
         "interface-name": false,
         "object-literal-sort-keys": false,
-        "one-variable-per-declaration": false
+        "one-variable-per-declaration": false,
+        "max-line-length": false
     },
     "rulesDirectory": []
 }

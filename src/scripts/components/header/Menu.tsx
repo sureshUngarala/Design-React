@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Dispatch, bindActionCreators } from 'redux';
+import { Dispatch, bindActionCreators, Store } from 'redux';
 import { Link } from 'react-router-dom';
 import { SearchInput } from './SearchInput';
 import { AppState } from './../../reducers/index';
 import { toggleHomeSearch } from './../../actions/index';
+import { AppStore } from './../../reducers/index';
 import * as $ from 'jquery';
 
 const MenuItems: React.FunctionComponent<{ isHidden: boolean }> = (props) => {
@@ -37,7 +38,13 @@ class Menu extends React.Component<MenuCompProps> {
             this.searchInput.focusInput();
     }
 
-
+    componentDidMount() {
+        fetch('http://localhost:8085/').then((res) => {
+            console.log(res.json());
+        }, () => {
+            console.log('api failed');
+        });
+    }
     // toggleInput(event?: { type: string }) {
     //     //console.log(event && event.type);
     //     this.setState({
@@ -85,10 +92,14 @@ interface MapDispatchToProps {
     toggleSearch: () => {};
 }
 
-const mapStateToProps = (state: AppState) => ({
-    icon: state.data.menu.icon,
-    hideInput: state.data.menu.hideInput,
-});
+const mapStateToProps = (store: AppStore) => {
+    //console.log(state);
+    const state = store.reducer;
+    return {
+        icon: state.data.menu.icon,
+        hideInput: state.data.menu.hideInput,
+    };
+};
 
 const mapDispatchToProps = {    //If mapDispatchToProps is object, dispatchProps will be merged to component's props.
     toggleSearch: toggleHomeSearch,
