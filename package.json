@@ -1,5 +1,5 @@
 {
-  "name": "finance",
+  "name": "design-react",
   "version": "1.0.0",
   "description": "Scaffold",
   "main": "./src/index.js",
@@ -18,14 +18,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sureshUngarala/Finance.git"
+    "url": "git+https://github.com/sureshUngarala/Design-React.git"
   },
   "author": "Suresh Ungarala",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/sureshUngarala/Finance/issues"
+    "url": "https://github.com/sureshUngarala/Design-React/issues"
   },
-  "homepage": "https://github.com/sureshUngarala/Finance#readme",
+  "homepage": "https://github.com/sureshUngarala/Design-React#readme",
   "dependencies": {
     "@types/axios": "^0.14.0",
     "@types/jquery": "^3.3.29",

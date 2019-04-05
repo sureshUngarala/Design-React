@@ -68,16 +68,16 @@ module.exports = {
                 glob: '*.png'
             },
             target: {
-                image: path.resolve(__dirname, 'src/sprites/finance.png'),
-                css: path.resolve(__dirname, 'src/styles/finance-png.scss')
+                image: path.resolve(__dirname, 'src/sprites/sprite.png'),
+                css: path.resolve(__dirname, 'src/styles/sprite-png.scss')
             },
             apiOptions: {
-                cssImageRef: "./sprites/finance.png"  //path w.r.t where finance.scss gets imported
+                cssImageRef: "./sprites/sprite.png"  //path w.r.t where sprites.scss gets imported
             }
         }),
         new SVGSpritemapPlugin('src/assets/svg/*.svg', {    //refer `https://github.com/cascornelissen/svg-spritemap-webpack-plugin/blob/master/docs/options.md`
             output: {
-                filename: '../src/sprites/finance.svg',
+                filename: '../src/sprites/sprite.svg',
                 svg: {
                     sizes: false
                 },
@@ -94,7 +94,7 @@ module.exports = {
             },
             styles: {
                 format: 'fragment',
-                filename: path.join(__dirname, 'src/styles/finance-svg.scss'),
+                filename: path.join(__dirname, 'src/styles/sprite-svg.scss'),
                 variables: {    //just variable names in scss created
                     sprites: 'svg-sprites',
                     sizes: 'svg-sizes',

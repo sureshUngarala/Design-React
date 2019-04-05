@@ -8,7 +8,7 @@ interface Sprite {
 }
 
 export const Icon: React.FunctionComponent<Sprite> = (props) => {
-    const spritemap = "src/sprites/finance.svg#" + props.name;
+    const spritemap = "src/sprites/sprite.svg#" + props.name;
     const style = {
         width: props.width ? props.width : '20px',
         height: props.height ? props.height : '20px',
